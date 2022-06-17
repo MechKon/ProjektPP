@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1655460884 source:c:\users\pieczara\desktop\cpp\login2\main.cpp
+	<iostream>
+	<fstream>
+	<windows.h>
+	<math.h>
+	<cstdlib>
+	<conio.h>
+	<sstream>
+
