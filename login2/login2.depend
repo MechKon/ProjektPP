@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1655460884 source:c:\users\pieczara\desktop\cpp\login2\main.cpp
+1655505946 source:c:\users\pieczara\desktop\cpp\login2\main.cpp
 	<iostream>
 	<fstream>
 	<windows.h>
@@ -7,4 +7,5 @@
 	<cstdlib>
 	<conio.h>
 	<sstream>
+	<vector>
 

@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <conio.h>
 #include <sstream>
-#include <string>
+#include <vector>
 using namespace std;
 
 class bank
@@ -177,10 +177,9 @@ public:
         cin >> typ;
         saveFileBezSz(typ, "typy.txt", id);
 
-        cout << "Wprowadz kwote do wplaty(Dla O - min. 500zl, dla S - min.1000zl.\n";
+        cout << "Wprowadz kwote do wplaty(Dla O - min. 1000zl, dla S - min.2000zl.\n";
         cin >> stanS;
         saveFileBezSz(stanS, "stany.txt", id);
-
     }
 
     int getLastID()
@@ -283,7 +282,6 @@ public:
         for(int i=0; i<linia.length(); i++)
         {
             file << linia[i];
-            file << " ";
         }
 
         file << "#ID:" << id;
@@ -335,21 +333,18 @@ public:
                 menuGlowne();
             }
             break;
-
             case '2':
             {
                 system("cls");
                 rejestracja();
             }
             break;
-
             case '3':
             {
                 system("cls");
                 adminLogin();
                 Sleep(400);
             }
-
             case '4':
             {
                 exit(0);
@@ -406,12 +401,12 @@ public:
 
             default:
                 cout << "Takiej opcji nie ma w menu!";
-
             }
             getchar();
             system("cls");
         }
     }
+
     void wplaty()
     {
         cout << "Podaj kwote do wplaty: ";
@@ -423,25 +418,58 @@ public:
     {
         cout << "Podaj kwote do wyplaty: ";
         cin >> kwota;
-        if(kwota>stan)
-        {
-            cout << "Nie posiadasz tylu srodkow na koncie" << endl;
-        }
-        stan-= kwota;
+        stan-=kwota;
     }
 
     void info()
     {
         cout<<"\nNazwa wlasciciela: " <<log;
+        string linia;
+        ifstream plik("stany.txt");
+        if (plik.is_open())
+        {
+            int loginID = checkFile(log, "loginy.txt");
+            while (!plik.eof())
+            {
+                for (int lineno = 0; getline (plik,linia); lineno++)
+                {
+                    if (lineno == loginID-1)
+                    {
+                        linia.erase(4, 9);
+                        cout << "\nStan konta: " <<  linia;
+                    }
+                }
+            }
+            plik.close();
+        }
+        else
+            cout << "Nie udalo sie otworzyc pliku";
 
-        cout<<"\nTyp konta: "<< typ;
-
-        cout<<"\nStan konta: "<< stan;
+        ifstream plik1("typy.txt");
+        if (plik1.is_open())
+        {
+            int loginID = checkFile(log, "loginy.txt");
+            while (!plik1.eof())
+            {
+                for (int lineno = 0; getline (plik1,linia); lineno++)
+                {
+                    if (lineno == loginID-1)
+                    {
+                        linia.erase(1, 5);
+                        cout << "\nTyp konta: " <<  linia;
+                    }
+                }
+            }
+            plik1.close();
+        }
+        else
+            cout << "Nie udalo sie otworzyc pliku";
     }
 
 private:
+
     double kwota;
-    double stan;
+    int stan;
     string stanS;
     string log;
     string haslo;
@@ -454,7 +482,13 @@ private:
 
 int main()
 {
+    HANDLE hOut;
+
+    hOut = GetStdHandle( STD_OUTPUT_HANDLE );
+    SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY );
+
     bank otworz;
     otworz.ekranStartowy();
+    //otworz.info();
     cin.get();
 }
