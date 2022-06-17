@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <conio.h>
 #include <sstream>
+#include <string>
 using namespace std;
 
 class bank
@@ -92,6 +93,7 @@ public:
         usunLinie("stany.txt", id);
         usunLinie("typy.txt", id);
     }
+
     void usunLinie(const char *nazwa, int n)
     {
         ifstream is(nazwa);
@@ -106,7 +108,7 @@ public:
                 line_no++;
 
             if (line_no != n)
-                ofs << c;
+                temp << c;
         }
         temp.close();
         is.close();
@@ -159,6 +161,8 @@ public:
         if(checkFile(login, "loginy.txt") != 0)
         {
             cout << "Ten login jest juz zajety!" << endl;
+            system("cls");
+            rejestracja();
         }
         else
         {
@@ -171,7 +175,7 @@ public:
 
         cout << "Wybierz typ konta (O-Oszczednosciowe/S-standard): " << endl;
         cin >> typ;
-        saveFile(typ, "typy.txt", id);
+        saveFileBezSz(typ, "typy.txt", id);
 
         cout << "Wprowadz kwote do wplaty(Dla O - min. 500zl, dla S - min.1000zl.\n";
         cin >> stanS;
@@ -316,6 +320,7 @@ public:
             cout << "1.Zaloguj sie." << endl;
             cout << "2.Zarejestruj sie." << endl;
             cout << "3.Panel administratora."<< endl;
+            cout << "4.Wyjscie."<< endl;
             cout << "------------------------------------------------------------------------" << endl;
             cout << endl;
 
@@ -343,6 +348,11 @@ public:
                 system("cls");
                 adminLogin();
                 Sleep(400);
+            }
+
+            case '4':
+            {
+                exit(0);
             }
 
             default:
@@ -406,7 +416,7 @@ public:
     {
         cout << "Podaj kwote do wplaty: ";
         cin >> kwota;
-        stan += kwota;
+        stan+= kwota;
     }
 
     void wyplaty()
@@ -422,13 +432,12 @@ public:
 
     void info()
     {
-        system("cls");
         cout<<"\nNazwa wlasciciela: " <<log;
-        cout<<"\nTyp konta: "<<typ;
-        cout<<"\nStan konta: "<<stan;
+
+        cout<<"\nTyp konta: "<< typ;
+
+        cout<<"\nStan konta: "<< stan;
     }
-
-
 
 private:
     double kwota;
